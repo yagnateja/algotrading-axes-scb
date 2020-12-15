@@ -1,11 +1,10 @@
 import React, { Fragment } from "react";
-
-import PrimaryRoutes from "./Routes/PrimaryRoutes";
+import CompanyPage from "./components/CompanyPage";
 
 function App() {
   return (
     <Fragment>
-      <PrimaryRoutes />
+      <CompanyPage />
     </Fragment>
   );
 }

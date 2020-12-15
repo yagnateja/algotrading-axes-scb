@@ -13,15 +13,20 @@ const StockChart = (props) => {
 
     axios
       .get(
-        `https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=${companySymbol}&interval=5min&outputsize=compact&apikey=${API_KEY}`
+        `https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol=${companySymbol}&outputsize=compact&apikey=${API_KEY}`
       )
       .then((response) => {
         let xValues = [];
         let yValues = [];
+        console.log(response.data);
+        let i = 0;
 
-        for (let key in response.data["Time Series (5min)"]) {
-          xValues.push(key);
-          yValues.push(response.data["Time Series (5min)"][key]["1. open"]);
+        for (let key in response.data["Time Series (Daily)"]) {
+          if (i < 30) {
+            xValues.push(key);
+            yValues.push(response.data["Time Series (Daily)"][key]["1. open"]);
+          }
+          i += 1;
         }
 
         setStockData([xValues, yValues]);
@@ -31,22 +36,28 @@ const StockChart = (props) => {
   return (
     <Fragment>
       {stockData ? (
-        <div>
-          <Plot
-            data={[
-              {
-                x: stockData[0],
-                y: stockData[1],
-                type: "scatter",
-                mode: "lines+markers",
-                marker: { color: "red" },
-              },
-            ]}
-            layout={{ width: 720, height: 440, title: companyTitle }}
-          />
-        </div>
+        <Plot
+          data={[
+            {
+              x: stockData[0],
+              y: stockData[1],
+              type: "scatter",
+              mode: "lines+markers",
+              marker: { color: "orange" },
+            },
+          ]}
+          layout={{
+            width: 775,
+            height: 480,
+
+            title: companyTitle + "s Stock prices in the last 30 Days",
+            titlefont: {
+              size: 20,
+            },
+          }}
+        />
       ) : (
-        <div>Receiving Data</div>
+        <div>Receiving Data...</div>
       )}
     </Fragment>
   );
