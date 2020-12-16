@@ -48,7 +48,7 @@ const CompanyPage = (props) => {
     mappingArray = [...Array(numberOfArticles).keys()];
 
     mappingArray.forEach((identifier) => {
-      if (selectedCompanyData.data.preds[identifier] == 1) {
+      if (companyData.data.preds[identifier] == 1) {
         numberOfPositives += 1;
       }
     });
