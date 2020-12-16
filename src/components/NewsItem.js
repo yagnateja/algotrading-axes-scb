@@ -5,7 +5,10 @@ const NewsItem = (props) => {
     <Fragment>
       <div
         className="container card my-3"
-        style={{ border: "thin solid orange" }}
+        style={{
+          border: "thin solid orange",
+          backgroundColor: props.isPositive ? "whitesmoke" : "white",
+        }}
       >
         <h6 className="mx-1 my-3">{props.source}</h6>
         <h4 className="card-title">{props.headline}</h4>

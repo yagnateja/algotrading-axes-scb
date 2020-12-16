@@ -3,43 +3,31 @@ import axios from "axios";
 import NewsItem from "./NewsItem";
 
 const NewsContainer = (props) => {
-  const API_KEY = "12cbccb209b3423394dba4735372835e";
-  const companyTitle = props.company.company;
-  const fromDate = "2020-12-06";
-  const toDate = "2020-12-14";
-
-  const [newsArticles, setNewsArticles] = useState();
-
-  useEffect(() => {
-    axios
-      .get(
-        `https://newsapi.org/v2/everything?q=${encodeURI(
-          companyTitle
-        )}&from=${fromDate}&to=${toDate}?country=us&sortBy=time&apiKey=${API_KEY}`
-      )
-      .then((response) => {
-        setNewsArticles(response.data.articles);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, [companyTitle]);
+  let numberOfArticles = Object.keys(props.companyData.data.date).length;
+  let mappingArray = [...Array(numberOfArticles).keys()];
 
   return (
     <Fragment>
-      {newsArticles ? (
+      {props.companyData ? (
         <div className=" my-5 mx-3">
           <div className="d-flex justify-content-center">
             <h3>News Articles used for Prediction</h3>
           </div>
 
-          {newsArticles.map((article, id) => {
+          {mappingArray.map((identifier, id) => {
             return (
               <NewsItem
-                source={article.source.name}
-                headline={article.title}
-                description={article.description}
-                time={article.publishedAt}
+                key={id}
+                source={"Money Control"}
+                headline={props.companyData.data.heading[identifier]}
+                description={
+                  props.companyData.data.article_content[identifier].substring(
+                    0,
+                    500
+                  ) + "..."
+                }
+                time={props.companyData.data.date[identifier]}
+                isPositive={props.companyData.data.preds[identifier]}
               />
             );
           })}

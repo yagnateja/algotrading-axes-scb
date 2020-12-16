@@ -1,0 +1,52 @@
+[
+  {
+    "id": "0",
+    "name": "Tata Motors",
+    "symbol": "TATAMOTORS"
+  },
+  {
+    "id": "1",
+    "name": "Infosys",
+    "symbol": "INFY"
+  },
+  {
+    "id": "2",
+    "name": "Relaince",
+    "symbol": "RELIANCE"
+  },
+  {
+    "id": "3",
+    "name": "Yes Bank",
+    "symbol": "YESBANK"
+  },
+  {
+    "id": "4",
+    "name": "Asian Paints",
+    "symbol": "ASIANPAINT"
+  },
+  {
+    "id": "5",
+    "name": "UPL",
+    "symbol": "UPL"
+  },
+  {
+    "id": "6",
+    "name": "Burger King India",
+    "symbol": "BURGERKING"
+  },
+  {
+    "id": "7",
+    "name": "M&M",
+    "symbol": "M&M"
+  },
+  {
+    "id": "8",
+    "name": "TATA Steel",
+    "symbol": "TATASTEEL"
+  },
+  {
+    "id": "9",
+    "name": "HDFC",
+    "symbol": "HDFCBANK"
+  }
+]

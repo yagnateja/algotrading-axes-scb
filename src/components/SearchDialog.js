@@ -1,7 +1,7 @@
 import React, { Fragment, useState } from "react";
 import TextField from "@material-ui/core/TextField";
 import AutoComplete from "@material-ui/lab/Autocomplete";
-import companySymbols from "../data/company_symbols.json";
+import companySymbols from "../data/company_id_name.json";
 import { useHistory } from "react-router-dom";
 import { Dialog } from "@material-ui/core";
 
@@ -25,7 +25,7 @@ const SearchDialog = (props) => {
             options={companySymbols}
             style={{ height: 75 }}
             className="m-5 align-self-stretch"
-            getOptionLabel={(option) => option.company}
+            getOptionLabel={(option) => option.name}
             renderInput={(params) => (
               <TextField
                 {...params}

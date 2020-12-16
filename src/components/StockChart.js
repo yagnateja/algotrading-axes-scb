@@ -4,7 +4,7 @@ import Plot from "react-plotly.js";
 
 const StockChart = (props) => {
   const API_KEY = "P654EDCLDQTNV87I";
-  const companyTitle = props.company.company;
+  const companyTitle = props.company.name;
 
   const [stockData, setStockData] = useState();
 

@@ -1,7 +1,9 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import StockChart from "../components/StockChart";
 import NewsContainer from "../components/NewsContainer";
 import "../styles.css";
+import selectedCompanyData from "../data/relaince.json";
+import axios from "axios";
 
 import SearchDialog from "../components/SearchDialog";
 
@@ -21,11 +23,46 @@ const CompanyPage = (props) => {
 
   const [selectedCompany, setSelectedCompany] = useState();
   const [open, setOpen] = React.useState(true);
+  const [companyData, setCompanyData] = useState();
 
-  const buy = true;
+  useEffect(() => {
+    if (selectedCompany) {
+      axios
+        .get(`http://127.0.0.1:5000/${selectedCompany.id}`)
+        .then((response) => {
+          setCompanyData(response.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  }, []);
+
+  let numberOfArticles;
+  let mappingArray;
+  let numberOfPositives = 0;
+  let buy = 2;
+
+  if (companyData) {
+    numberOfArticles = Object.keys(companyData.data.date).length;
+    mappingArray = [...Array(numberOfArticles).keys()];
+
+    mappingArray.forEach((identifier) => {
+      if (selectedCompanyData.data.preds[identifier] == 1) {
+        numberOfPositives += 1;
+      }
+    });
+
+    if (numberOfPositives > numberOfArticles / 2) {
+      buy = 1;
+    } else if (numberOfPositives < numberOfArticles / 2) {
+      buy = 0;
+    }
+  }
 
   const buyText = <span style={{ color: "green" }}>Buy</span>;
-  const sellText = <h4 style={{ color: "red" }}>Sell</h4>;
+  const sellText = <span style={{ color: "red" }}>Sell</span>;
+  const neutralText = <span style={{ color: "blue" }}>Neutral</span>;
 
   return (
     <Fragment>
@@ -34,16 +71,13 @@ const CompanyPage = (props) => {
         setOpen={setOpen}
         setCompany={setSelectedCompany}
       />
-      {selectedCompany ? (
+      {companyData ? (
         <div className="container-fluid d-flex flex-column justify-content-center align-items-center my-5">
           <div className="container-fluid d-flex flex-row justify-content-right align-items-center my-5">
             <div className="col-5" />
             <h3>
               Stock Sentiment of{" "}
-              <span style={{ color: "orange" }}>
-                {" "}
-                {selectedCompany.company}
-              </span>
+              <span style={{ color: "orange" }}> {selectedCompany.name}</span>
             </h3>
             <div className="col-2" />
 
@@ -71,11 +105,21 @@ const CompanyPage = (props) => {
               style={newsContainerStyles}
               id="newsContainer"
             >
-              <NewsContainer company={selectedCompany} />
+              <NewsContainer companyData={companyData} />
             </div>
           </div>
           <div className="mt-5">
-            <h3>Suggestion: {buy ? buyText : sellText}</h3>
+            <h3>
+              Suggestion:{" "}
+              {buy == 1 ? buyText : buy == 0 ? sellText : neutralText}
+              {buy == 1
+                ? ` (${numberOfPositives}/ ${numberOfArticles})`
+                : buy == 0
+                ? ` (${
+                    numberOfArticles - numberOfPositives
+                  }/ ${numberOfArticles})`
+                : null}
+            </h3>
           </div>
         </div>
       ) : (
